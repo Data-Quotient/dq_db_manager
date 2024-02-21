@@ -1,10 +1,13 @@
 from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
 from dq_db_manager.handlers.mysql.mysql_db_handler import MySQLDBHandler
+from dq_db_manager.handlers.base import base_db_handler
 # Import other DB handlers as needed
 
 class DatabaseFactory:
     @staticmethod
-    def get_database_handler(db_type, connection_details):
+    def get_database_handler(db_type: str, connection_details:dict) -> base_db_handler:
+
+        db_type = db_type.lower()
         # Match the db_type and instantiate the corresponding DB handler
         if db_type == 'postgresql':
             return PostgreSQLDBHandler(connection_details)
