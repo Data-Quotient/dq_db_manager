@@ -1,5 +1,6 @@
 from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
 from dq_db_manager.handlers.mysql.mysql_db_handler import MySQLDBHandler
+from dq_db_manager.handlers.s3.s3_client_handler import S3ClientHandler
 from dq_db_manager.handlers.base import base_db_handler
 # Import other DB handlers as needed
 
@@ -13,6 +14,7 @@ class DatabaseFactory:
             return PostgreSQLDBHandler(connection_details)
         elif db_type == 'mysql':
             return MySQLDBHandler(connection_details)
-        # Add other database types here as elif statements
+        elif db_type == 's3':
+            return S3ClientHandler(connection_details)
         else:
             raise ValueError(f"Unsupported database type: {db_type}")
