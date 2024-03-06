@@ -1,5 +1,5 @@
 # from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
-from dq_db_manager.handlers.s3.s3_client_handler import S3ClientHandler
+from dq_db_manager.handlers.amazons3.s3_client_handler import S3ClientHandler
 
 connection_details = {
             'bucket_name': 'blank',
