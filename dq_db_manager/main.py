@@ -1,14 +1,11 @@
-# from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
-from dq_db_manager.handlers.amazons3.s3_client_handler import S3ClientHandler
+from dq_db_manager.handlers.oracle.oracle_db_handler import OracleDBHandler
 
 connection_details = {
-            'bucket_name': 'blank',
-            'access_key_id': 'blank',  # Use a separate test database
-            'secret_access_key': 'blanke',
-            'region': 'blank',
-        }
+    'user': 'bavid',
+    'password': 'password',
+    'dsn': 'localhost/FREEPDB1'
+}
 
-
-handler = S3ClientHandler(connection_details)
+handler = OracleDBHandler(connection_details)
 
 handler = handler.connection_handler.test_connection()
