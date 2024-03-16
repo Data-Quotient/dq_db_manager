@@ -15,8 +15,8 @@ class OracleConnectionHandler(BaseConnectionHandler):
             print(f"Successfully connected to {self.connection_details}")
             return self.connection
         except oracledb.Error as e:
-            print(f"Error connecting to PostgreSQL: {e}")
-            return None
+            print(f"Error connecting to OracleDB: {e}")
+            raise
 
     def disconnect(self):
         if self.connection:
@@ -28,21 +28,21 @@ class OracleConnectionHandler(BaseConnectionHandler):
             self.connect()
             return True
         except oracledb.Error as e:
-            print(f"Error testing PostgreSQL connection: {e}")
+            print(f"Error testing OracleDB connection: {e}")
             return False
         finally:
             self.disconnect()
 
     def execute_query(self, query, params=None):
+        self.connect()
         try:
-            self.connect()
             cursor = self.connection.cursor()
             cursor.execute(query, params)  
             results = cursor.fetchall()
             cursor.close()
             return results
         except oracledb.Error as e:
-            print(f"Error executing PostgreSQL query: {e}")
+            print(f"Error executing OracleDB query: {e}")
             return None
         finally:
             self.disconnect()

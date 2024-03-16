@@ -15,7 +15,7 @@ class MySQLConnectionHandler(BaseConnectionHandler):
             return self.connection
         except mysql.connector.Error as e:
             print(f"Error connecting to MySQL: {e}")
-            return None
+            raise
 
     def disconnect(self):
         if self.connection:
