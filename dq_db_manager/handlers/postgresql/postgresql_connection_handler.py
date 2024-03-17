@@ -15,7 +15,7 @@ class PostgreSQLConnectionHandler(BaseConnectionHandler):
             return self.connection
         except psycopg2.Error as e:
             print(f"Error connecting to PostgreSQL: {e}")
-            return None
+            raise
 
     def disconnect(self):
         if self.connection:

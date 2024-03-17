@@ -1,14 +1,10 @@
-# from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
-from dq_db_manager.handlers.amazons3.s3_client_handler import S3ClientHandler
+from dq_db_manager.handlers.oracle.oracle_db_handler import OracleDBHandler
 
-connection_details = {
-            'bucket_name': 'blank',
-            'access_key_id': 'blank',  # Use a separate test database
-            'secret_access_key': 'blanke',
-            'region': 'blank',
-        }
+connection_details = {'user': 'test', 'password': 'password', 'dsn': '127.0.0.1:1522/XEPDB1'}
+connection_details_1 = {'user': 'test', 'password': 'password', 'host':'localhost', 'port':1522, 'service_name':'XEPDB1'}
+
+handler = OracleDBHandler(connection_details_1)
+
+print(handler.metadata_extractor.extract_table_details())
 
 
-handler = S3ClientHandler(connection_details)
-
-handler = handler.connection_handler.test_connection()
