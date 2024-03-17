@@ -43,7 +43,6 @@ class DataSourceMetadata(BaseModel):
     data_source_id: str = Field(..., description="Unique identifier for the data source")
     tables: List[TableMetadata] = []
     views: List[ViewDetail] = []
-    version: int = Field(default=1, description="Version of the metadata")
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
 
