@@ -1,8 +1,8 @@
-from dq_db_manager.handlers.maria.maria_db_handler import MariaDBHandler
+from dq_db_manager.handlers.cockroach.cockroach_db_handler import CockroachHandler
 
-connection_details = {'host': 'viaduct.proxy.rlwy.net', 'port': '32534', 'user': 'railway', 'password':'UkCllrY~cxeWYhXT0hR2-cY7IjbHOgH4', 'database': 'railway'}
+connection_details = {'host': 'dune-wren-4130.7s5.aws-ap-south-1.cockroachlabs.cloud', 'port': 26257, 'user': 'test', 'password':'n9MKOp_tD4UURQfmvH50VQ', 'database': 'defaultdb'}
 
-handler = MariaDBHandler(connection_details)
+handler = CockroachHandler(connection_details)
 
 print(handler.metadata_extractor.extract_trigger_details())
 
