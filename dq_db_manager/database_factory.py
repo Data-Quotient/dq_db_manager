@@ -4,6 +4,7 @@ from dq_db_manager.handlers.amazons3.s3_client_handler import S3ClientHandler
 from dq_db_manager.handlers.oracle.oracle_db_handler import OracleDBHandler
 from dq_db_manager.handlers.maria.maria_db_handler import MariaDBHandler
 from dq_db_manager.handlers.cockroach.cockroach_db_handler import CockroachHandler
+from dq_db_manager.handlers.vertica.vertica_db_handler import VerticaHandler
 from dq_db_manager.handlers.base import base_db_handler
 # Import other DB handlers as needed
 
@@ -25,5 +26,7 @@ class DatabaseFactory:
             return MariaDBHandler(connection_details)
         elif db_type == 'cockroach':
             return CockroachHandler(connection_details)
+        elif db_type == 'vertica':
+            return VerticaHandler(connection_details)
         else:
             raise ValueError(f"Unsupported database type: {db_type}")
