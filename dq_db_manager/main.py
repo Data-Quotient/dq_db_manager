@@ -1,10 +1,9 @@
-from dq_db_manager.handlers.oracle.oracle_db_handler import OracleDBHandler
+from dq_db_manager.handlers.maria.maria_db_handler import MariaDBHandler
 
-connection_details = {'user': 'test', 'password': 'password', 'dsn': '127.0.0.1:1522/XEPDB1'}
-connection_details_1 = {'user': 'test', 'password': 'password', 'host':'localhost', 'port':1522, 'service_name':'XEPDB1'}
+connection_details = {'host': 'viaduct.proxy.rlwy.net', 'port': '32534', 'user': 'railway', 'password':'UkCllrY~cxeWYhXT0hR2-cY7IjbHOgH4', 'database': 'railway'}
 
-handler = OracleDBHandler(connection_details_1)
+handler = MariaDBHandler(connection_details)
 
-print(handler.metadata_extractor.extract_table_details())
+print(handler.metadata_extractor.extract_trigger_details())
 
 
