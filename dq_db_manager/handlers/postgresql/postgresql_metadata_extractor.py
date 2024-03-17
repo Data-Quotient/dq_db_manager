@@ -248,7 +248,6 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             data_source_id=self.connection_handler.connection_details['database'],
             tables=tables,
             views=views,
-            version=1,
             created_at=str(datetime.now()),
             updated_at=str(datetime.now())
         )
