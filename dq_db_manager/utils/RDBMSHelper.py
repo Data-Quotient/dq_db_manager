@@ -10,22 +10,22 @@ def extract_details(executor, query, model_class, return_as_dict: bool = False, 
     else:
         return data_objects
 
-def add_table_to_query(query, params, table_name, alias="table_name"):
-    query += f"AND {alias} = %s"
+def add_table_to_query(query, params, table_name, alias="table_name", placeholder="%s"):
+    query += f"AND {alias} = {placeholder}"
     params.append(table_name)
     return query, params
 
-def add_index_to_query(query, params, index_name, alias="index_name"):
-    query += f"AND {alias} = %s"
+def add_index_to_query(query, params, index_name, alias="index_name", placeholder="%s"):
+    query += f"AND {alias} = {placeholder}"
     params.append(index_name)
     return query, params
 
-def add_view_to_query(query, params, view_name, alias="view_name"):
-    query += f"AND {alias} = %s"
+def add_view_to_query(query, params, view_name, alias="view_name", placeholder="%s"):
+    query += f"AND {alias} = {placeholder}"
     params.append(view_name)
     return query, params
 
-def add_trigger_to_query(query, params, trigger_name, alias="trigger_name"):
-    query += f"AND {alias} = %s"
+def add_trigger_to_query(query, params, trigger_name, alias="trigger_name", placeholder="%s"):
+    query += f"AND {alias} = {placeholder}"
     params.append(trigger_name)
     return query, params

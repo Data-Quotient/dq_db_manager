@@ -12,7 +12,6 @@ class OracleConnectionHandler(BaseConnectionHandler):
     def connect(self):
         try:
             self.connection = oracledb.connect(**self.connection_details)
-            print(f"Successfully connected to {self.connection_details}")
             return self.connection
         except oracledb.Error as e:
             print(f"Error connecting to OracleDB: {e}")
