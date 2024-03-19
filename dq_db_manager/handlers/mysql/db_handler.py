@@ -1,10 +1,5 @@
-# MySQLDBHandler and PostgreSQLDBHandler would look similar
-# Here's an example for MySQLDBHandler
-from .connection_handler import MySQLConnectionHandler
-from .metadata_extractor import MySQLMetadataExtractor
-from ..base.db_handler import BaseDBHandler
+from dq_db_manager.handlers.maria.db_handler import MariaDBHandler
 
-class MySQLDBHandler(BaseDBHandler):
+class MySQLDBHandler(MariaDBHandler):
     def __init__(self, connection_details):
-        self.connection_handler = MySQLConnectionHandler(connection_details)
-        self.metadata_extractor = MySQLMetadataExtractor(self.connection_handler)
+        super().__init__(connection_details)
