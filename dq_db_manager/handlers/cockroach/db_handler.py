@@ -1,6 +1,6 @@
-from .cockroach_connection_handler import CockroachConnectionHandler
-from .cockroach_metadata_extractor import CockroachMetadataExtractor
-from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
+from .connection_handler import CockroachConnectionHandler
+from .metadata_extractor import CockroachMetadataExtractor
+from dq_db_manager.handlers.base.db_handler import BaseDBHandler
 
 class CockroachHandler(BaseDBHandler):
     def __init__(self, connection_details):

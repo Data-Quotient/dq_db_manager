@@ -1,17 +1,13 @@
-from dq_db_manager.handlers.base.base_metadata_extractor import BaseMetadataExtractor
+from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 
-class MariaMetadataExtractor(BaseMetadataExtractor):
+class OracleMetadataExtractor(BaseMetadataExtractor):
 
     def __init__(self, connection_handler):
         self.connection_handler = connection_handler
     
     # Function to extract table details
     def extract_table_details(self, table_name=None):
-        table_query = """
-        SELECT table_name, table_type 
-        FROM information_schema.tables 
-        WHERE table_schema = DATABASE();
-        """
+        table_query = "SELECT table_name, 'TABLE' AS table_type FROM user_tables"
         params = []
         
         if table_name:
@@ -23,9 +19,11 @@ class MariaMetadataExtractor(BaseMetadataExtractor):
     # Function to extract column details
     def extract_column_details(self, table_name=None):
         column_query = """
-        SELECT table_name, column_name, data_type, column_default, is_nullable
-        FROM information_schema.columns
-        WHERE table_schema = DATABASE()
+        SELECT table_name, column_name, data_type, data_default AS column_default, nullable AS is_nullable
+        FROM user_tab_columns
+        WHERE table_name IN (
+        SELECT table_name
+        FROM user_tables)
         """
         params = []
         
@@ -39,8 +37,8 @@ class MariaMetadataExtractor(BaseMetadataExtractor):
     def extract_constraints_details(self, table_name=None, constraint_name=None):
         constraints_query = """
         SELECT constraint_name, table_name, constraint_type
-        FROM information_schema.table_constraints
-        WHERE table_schema = DATABASE()
+        FROM user_constraints
+        WHERE owner = USER
         """
         params = []
 
@@ -57,9 +55,9 @@ class MariaMetadataExtractor(BaseMetadataExtractor):
     # Function to extract index details
     def extract_index_details(self, table_name=None, index_name=None):
         index_query = """
-        SELECT INDEX_NAME AS indexname, TABLE_NAME AS tablename, INDEX_TYPE AS indexdef
-        FROM information_schema.statistics
-        WHERE TABLE_SCHEMA = DATABASE();
+        SELECT index_name AS indexname, table_name AS tablename, index_type AS indexdef
+        FROM user_indexes
+        WHERE table_owner = USER
         """
         params = []
 
@@ -75,11 +73,7 @@ class MariaMetadataExtractor(BaseMetadataExtractor):
 
     # Function to extract view details
     def extract_view_details(self, view_name=None):
-        view_query = """
-        SELECT table_name, view_definition 
-        FROM information_schema.views 
-        WHERE table_schema = DATABASE()
-        """
+        view_query = "SELECT view_name AS table_name, text AS view_definition FROM user_views"
         params = []
 
         if view_name:
@@ -91,9 +85,12 @@ class MariaMetadataExtractor(BaseMetadataExtractor):
     # Function to extract trigger details
     def extract_trigger_details(self, trigger_name=None):
         trigger_query = """
-        SELECT EVENT_OBJECT_TABLE, TRIGGER_NAME, ACTION_STATEMENT, ACTION_TIMING, EVENT_MANIPULATION
-        FROM information_schema.triggers
-        WHERE EVENT_OBJECT_SCHEMA = DATABASE();
+        SELECT table_name AS event_object_table,
+        trigger_name,
+        trigger_body AS action_statement,
+        trigger_type AS action_timing,
+        triggering_event AS event_manipulation
+        FROM all_triggers
         """
         params = []
 

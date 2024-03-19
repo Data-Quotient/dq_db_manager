@@ -1,13 +1,17 @@
-from dq_db_manager.handlers.base.base_metadata_extractor import BaseMetadataExtractor
+from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 
-class VerticaMetadataExtractor(BaseMetadataExtractor):
+class MariaMetadataExtractor(BaseMetadataExtractor):
 
     def __init__(self, connection_handler):
         self.connection_handler = connection_handler
     
     # Function to extract table details
     def extract_table_details(self, table_name=None):
-        table_query = "SELECT table_name, 'BASE TABLE' AS table_type FROM v_catalog.tables"
+        table_query = """
+        SELECT table_name, table_type 
+        FROM information_schema.tables 
+        WHERE table_schema = DATABASE();
+        """
         params = []
         
         if table_name:
@@ -20,7 +24,8 @@ class VerticaMetadataExtractor(BaseMetadataExtractor):
     def extract_column_details(self, table_name=None):
         column_query = """
         SELECT table_name, column_name, data_type, column_default, is_nullable
-        FROM v_catalog.columns
+        FROM information_schema.columns
+        WHERE table_schema = DATABASE()
         """
         params = []
         
@@ -33,9 +38,9 @@ class VerticaMetadataExtractor(BaseMetadataExtractor):
     # Function to extract constraints details
     def extract_constraints_details(self, table_name=None, constraint_name=None):
         constraints_query = """
-        SELECT cc.constraint_name, cc.table_name, cc.constraint_type
-        FROM v_catalog.constraint_columns cc
-        JOIN v_catalog.tables t ON cc.table_id = t.table_id
+        SELECT constraint_name, table_name, constraint_type
+        FROM information_schema.table_constraints
+        WHERE table_schema = DATABASE()
         """
         params = []
 
@@ -52,12 +57,9 @@ class VerticaMetadataExtractor(BaseMetadataExtractor):
     # Function to extract index details
     def extract_index_details(self, table_name=None, index_name=None):
         index_query = """
-        SELECT p.projection_name AS indexname,
-            t.table_name AS tablename,
-            'Super Projection' AS indexdef
-        FROM v_catalog.projections p
-        JOIN v_catalog.tables t ON p.anchor_table_id = t.table_id
-        WHERE p.is_super_projection = 't'
+        SELECT INDEX_NAME AS indexname, TABLE_NAME AS tablename, INDEX_TYPE AS indexdef
+        FROM information_schema.statistics
+        WHERE TABLE_SCHEMA = DATABASE();
         """
         params = []
 
@@ -75,7 +77,8 @@ class VerticaMetadataExtractor(BaseMetadataExtractor):
     def extract_view_details(self, view_name=None):
         view_query = """
         SELECT table_name, view_definition 
-        FROM v_catalog.views
+        FROM information_schema.views 
+        WHERE table_schema = DATABASE()
         """
         params = []
 
@@ -86,22 +89,18 @@ class VerticaMetadataExtractor(BaseMetadataExtractor):
         return self.connection_handler.execute_query(view_query, tuple(params))
 
     # Function to extract trigger details
+    def extract_trigger_details(self, trigger_name=None):
+        trigger_query = """
+        SELECT EVENT_OBJECT_TABLE, TRIGGER_NAME, ACTION_STATEMENT, ACTION_TIMING, EVENT_MANIPULATION
+        FROM information_schema.triggers
+        WHERE EVENT_OBJECT_SCHEMA = DATABASE();
+        """
+        params = []
 
-    # TODO: In Vertica, there isn't a direct equivalent to 
-    # PostgreSQL's information_schema.triggers view as Vertica doesn't 
-    # support triggers in the same way. Instead, Vertica provides a mechanism 
-    # called Flex Tables for capturing external events and processing them asynchronously.
+        if trigger_name:
+            trigger_query += " AND trigger_name = %s"
+            params.append(trigger_name)
 
-    # def extract_trigger_details(self, trigger_name=None):
-    #     trigger_query = """
-
-    #     """
-    #     params = []
-
-    #     if trigger_name:
-    #         trigger_query += " AND trigger_name = %s"
-    #         params.append(trigger_name)
-
-    #     return self.connection_handler.execute_query(trigger_query, tuple(params))
+        return self.connection_handler.execute_query(trigger_query, tuple(params))
 
     # ... other metadata extraction met

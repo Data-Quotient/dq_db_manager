@@ -1,4 +1,4 @@
-from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
+from dq_db_manager.handlers.postgresql.db_handler import PostgreSQLDBHandler
 
 connection_details = {'host': 'viaduct.proxy.rlwy.net',
              'port': 32580,

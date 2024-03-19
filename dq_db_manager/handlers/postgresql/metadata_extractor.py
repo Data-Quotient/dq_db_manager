@@ -1,7 +1,7 @@
-from dq_db_manager.handlers.base.base_metadata_extractor import BaseMetadataExtractor
+from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 from typing import List, Union
 from datetime import datetime
-from dq_db_manager.handlers.base.base_metadata_extractor import BaseMetadataExtractor
+from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 from dq_db_manager.utils.RDBMSHelper import extract_details, add_table_to_query, add_index_to_query, add_view_to_query, add_trigger_to_query
 from dq_db_manager.models.postgres import *
 

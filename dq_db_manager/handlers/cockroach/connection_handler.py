@@ -1,8 +1,8 @@
-from dq_db_manager.handlers.base.base_connection_handler import BaseConnectionHandler
-from .oracle_connection_details_parser import ConnectionDetailsParser
-import oracledb
+from dq_db_manager.handlers.base.connection_handler import BaseConnectionHandler
+from .connection_details_parser import ConnectionDetailsParser
+import psycopg2
 
-class OracleConnectionHandler(BaseConnectionHandler):
+class CockroachConnectionHandler(BaseConnectionHandler):
     def __init__(self, connection_details):
         parser = ConnectionDetailsParser(connection_details)
         parsed_details = parser.parse()
@@ -11,11 +11,10 @@ class OracleConnectionHandler(BaseConnectionHandler):
 
     def connect(self):
         try:
-            self.connection = oracledb.connect(**self.connection_details)
-            print(f"Successfully connected to {self.connection_details}")
+            self.connection = psycopg2.connect(**self.connection_details)
             return self.connection
-        except oracledb.Error as e:
-            print(f"Error connecting to OracleDB: {e}")
+        except psycopg2.Error as e:
+            print(f"Error connecting to Cockroach: {e}")
             raise
 
     def disconnect(self):
@@ -27,22 +26,22 @@ class OracleConnectionHandler(BaseConnectionHandler):
             
             self.connect()
             return True
-        except oracledb.Error as e:
-            print(f"Error testing OracleDB connection: {e}")
+        except psycopg2.Error as e:
+            print(f"Error testing Cockroach connection: {e}")
             return False
         finally:
             self.disconnect()
 
     def execute_query(self, query, params=None):
-        self.connect()
         try:
+            self.connect()
             cursor = self.connection.cursor()
             cursor.execute(query, params)  
             results = cursor.fetchall()
             cursor.close()
             return results
-        except oracledb.Error as e:
-            print(f"Error executing OracleDB query: {e}")
+        except psycopg2.Error as e:
+            print(f"Error executing Cockroach query: {e}")
             return None
         finally:
             self.disconnect()

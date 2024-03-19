@@ -1,6 +1,6 @@
-from .oracle_connection_handler import OracleConnectionHandler
-from .oracle_metadata_extractor import OracleMetadataExtractor
-from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
+from .connection_handler import OracleConnectionHandler
+from .metadata_extractor import OracleMetadataExtractor
+from dq_db_manager.handlers.base.db_handler import BaseDBHandler
 
 class OracleDBHandler(BaseDBHandler):
     def __init__(self, connection_details):

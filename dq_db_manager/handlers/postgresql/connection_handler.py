@@ -1,8 +1,8 @@
-from dq_db_manager.handlers.base.base_connection_handler import BaseConnectionHandler
-from .cockroach_connection_details_parser import ConnectionDetailsParser
+from dq_db_manager.handlers.base.connection_handler import BaseConnectionHandler
+from .connection_details_parser import ConnectionDetailsParser
 import psycopg2
 
-class CockroachConnectionHandler(BaseConnectionHandler):
+class PostgreSQLConnectionHandler(BaseConnectionHandler):
     def __init__(self, connection_details):
         parser = ConnectionDetailsParser(connection_details)
         parsed_details = parser.parse()
@@ -14,7 +14,7 @@ class CockroachConnectionHandler(BaseConnectionHandler):
             self.connection = psycopg2.connect(**self.connection_details)
             return self.connection
         except psycopg2.Error as e:
-            print(f"Error connecting to Cockroach: {e}")
+            print(f"Error connecting to PostgreSQL: {e}")
             raise
 
     def disconnect(self):
@@ -27,7 +27,7 @@ class CockroachConnectionHandler(BaseConnectionHandler):
             self.connect()
             return True
         except psycopg2.Error as e:
-            print(f"Error testing Cockroach connection: {e}")
+            print(f"Error testing PostgreSQL connection: {e}")
             return False
         finally:
             self.disconnect()
@@ -41,7 +41,7 @@ class CockroachConnectionHandler(BaseConnectionHandler):
             cursor.close()
             return results
         except psycopg2.Error as e:
-            print(f"Error executing Cockroach query: {e}")
+            print(f"Error executing PostgreSQL query: {e}")
             return None
         finally:
             self.disconnect()

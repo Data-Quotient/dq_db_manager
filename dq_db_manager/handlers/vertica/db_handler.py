@@ -1,6 +1,6 @@
-from .vertica_connection_handler import VerticaConnectionHandler
-from .vertica_metadata_extractor import VerticaMetadataExtractor
-from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
+from .connection_handler import VerticaConnectionHandler
+from .metadata_extractor import VerticaMetadataExtractor
+from dq_db_manager.handlers.base.db_handler import BaseDBHandler
 
 class VerticaHandler(BaseDBHandler):
     def __init__(self, connection_details):

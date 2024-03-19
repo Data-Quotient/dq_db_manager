@@ -1,5 +1,5 @@
-from dq_db_manager.handlers.base.base_connection_handler import BaseConnectionHandler
-from .vertica_connection_details_parser import ConnectionDetailsParser
+from dq_db_manager.handlers.base.connection_handler import BaseConnectionHandler
+from .connection_details_parser import ConnectionDetailsParser
 import vertica_python
 
 class VerticaConnectionHandler(BaseConnectionHandler):
