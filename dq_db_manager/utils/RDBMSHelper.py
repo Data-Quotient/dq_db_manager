@@ -29,3 +29,7 @@ def add_trigger_to_query(query, params, trigger_name, alias="trigger_name", plac
     query += f"AND {alias} = {placeholder}"
     params.append(trigger_name)
     return query, params
+
+def create_data_source_id(connection_details):
+    # user@host:port
+    return f"{connection_details['user']}@{connection_details['host']}:{connection_details['port']}"

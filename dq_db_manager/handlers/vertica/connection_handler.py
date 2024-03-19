@@ -11,7 +11,6 @@ class VerticaConnectionHandler(BaseConnectionHandler):
 
     def connect(self):
         try:
-            breakpoint()
             self.connection = vertica_python.connect(**self.connection_details)
             return self.connection
         except vertica_python.Error as e:
@@ -24,7 +23,6 @@ class VerticaConnectionHandler(BaseConnectionHandler):
 
     def test_connection(self):
         try:
-            
             self.connect()
             return True
         except vertica_python.Error as e:
