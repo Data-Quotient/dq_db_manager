@@ -12,7 +12,6 @@ class MariaConnectionHandler(BaseConnectionHandler):
     def connect(self):
         try:
             self.connection = mariadb.connect(**self.connection_details)
-            print(f"Successfully connected to {self.connection_details}")
             return self.connection
         except mariadb.Error as e:
             print(f"Error connecting to MariaDB: {e}")
@@ -24,7 +23,6 @@ class MariaConnectionHandler(BaseConnectionHandler):
 
     def test_connection(self):
         try:
-            
             self.connect()
             return True
         except mariadb.Error as e:

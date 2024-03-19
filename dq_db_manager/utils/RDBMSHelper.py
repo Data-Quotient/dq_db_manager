@@ -3,6 +3,7 @@ import json
 def extract_details(executor, query, model_class, return_as_dict: bool = False, *params) -> list:
     print(f"EXECUTING: {query}\nPARAMS: {params}")
     raw_data = executor(query, params)
+    # order of keys maintained for Python 3.7 or later
     data_objects = [model_class(**dict(zip(model_class.model_fields, row))) for row in raw_data]
     if return_as_dict:
         return [dict(json.loads(data_object.model_dump_json())) for data_object in data_objects]

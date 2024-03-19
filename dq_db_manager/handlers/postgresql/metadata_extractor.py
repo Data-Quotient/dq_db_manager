@@ -1,7 +1,6 @@
 from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 from typing import List, Union
 from datetime import datetime
-from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 from dq_db_manager.utils.RDBMSHelper import extract_details, add_table_to_query, add_index_to_query, add_view_to_query, add_trigger_to_query
 from dq_db_manager.models.postgres import *
 
@@ -29,9 +28,9 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             column_query, params = add_table_to_query(query=column_query, params=params, table_name=table_name)
         return extract_details(self.connection_handler.execute_query, column_query, ColumnDetail, return_as_dict, *params)
     
-    def extract_constraints_details(self, table_name=None, return_as_dict: bool = False):
+    def extract_constraints_details(self, table_name=None, return_as_dict: bool = False) -> Union[List[ConstraintDetail], List[dict]]:
         constraints_query = """
-        SELECT constraint_name, table_name, constraint_type
+        SELECT constraint_name, constraint_type
         FROM information_schema.table_constraints
         WHERE table_schema = current_schema()
         """
@@ -40,9 +39,9 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             constraints_query, params = add_table_to_query(query=constraints_query, params=params, table_name=table_name)
         return extract_details(self.connection_handler.execute_query, constraints_query, ConstraintDetail, return_as_dict, *params)
     
-    def extract_index_details(self, table_name=None, index_name=None, return_as_dict: bool = False):
+    def extract_index_details(self, table_name=None, index_name=None, return_as_dict: bool = False) -> Union[List[IndexDetail], List[dict]]:
         index_query = """
-        SELECT indexname, tablename, indexdef
+        SELECT indexname, indexdef
         FROM pg_indexes
         WHERE schemaname = current_schema()
         """
@@ -53,16 +52,16 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             index_query, params = add_index_to_query(query=index_query, params=params, index_name=index_name)
         return extract_details(self.connection_handler.execute_query, index_query, IndexDetail, return_as_dict, *params)
 
-    def extract_view_details(self, view_name=None, return_as_dict: bool = False):
+    def extract_view_details(self, view_name=None, return_as_dict: bool = False) -> Union[List[ViewDetail], List[dict]]:
         view_query = "SELECT table_name, view_definition FROM information_schema.views WHERE table_schema = current_schema()"
         params = []
         if view_name:
             view_query, params = add_view_to_query(query=view_query, params=params, view_name=view_name)
         return extract_details(self.connection_handler.execute_query, view_query, ViewDetail, return_as_dict, *params)
 
-    def extract_trigger_details(self, trigger_name=None, table_name=None, return_as_dict: bool = False):
+    def extract_trigger_details(self, trigger_name=None, table_name=None, return_as_dict: bool = False) -> Union[List[TriggerDetail], List[dict]]:
         trigger_query = """
-        SELECT event_object_table, trigger_name, action_statement, action_timing, event_manipulation
+        SELECT trigger_name, action_statement, action_timing, event_manipulation
         FROM information_schema.triggers
         WHERE event_object_schema = current_schema()
         """
