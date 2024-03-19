@@ -1,6 +1,6 @@
 from .postgresql_connection_handler import PostgreSQLConnectionHandler
 from .postgresql_metadata_extractor import PostgreSQLMetadataExtractor
-from .models import MetadataModels
+from dq_db_manager.models.postgres import MetadataModels
 from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
 
 class PostgreSQLDBHandler(BaseDBHandler):

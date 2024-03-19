@@ -3,14 +3,13 @@ from typing import List, Union
 from datetime import datetime
 from dq_db_manager.handlers.base.base_metadata_extractor import BaseMetadataExtractor
 from dq_db_manager.utils.RDBMSHelper import extract_details, add_table_to_query, add_index_to_query, add_view_to_query, add_trigger_to_query
-from .models import *
+from dq_db_manager.models.postgres import *
 
 class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
 
     def __init__(self, connection_handler, models):
         self.connection_handler = connection_handler
         self.models = models
-
     
     def extract_table_details(self, table_name=None, return_as_dict: bool = False) -> Union[List[TableDetail], List[dict]]:
         table_query = "SELECT table_name, table_type FROM information_schema.tables WHERE table_schema = current_schema()"
@@ -54,7 +53,6 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             index_query, params = add_index_to_query(query=index_query, params=params, index_name=index_name)
         return extract_details(self.connection_handler.execute_query, index_query, IndexDetail, return_as_dict, *params)
 
-    # Function to extract view details
     def extract_view_details(self, view_name=None, return_as_dict: bool = False):
         view_query = "SELECT table_name, view_definition FROM information_schema.views WHERE table_schema = current_schema()"
         params = []
@@ -78,12 +76,10 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
     def get_complete_metadata(self):
         # Extract all tables first
         tables = self.extract_table_details(return_as_dict=True)
-        print("tables fetched")
 
         # For each table, enrich it with columns, constraints, indexes, and triggers
         for table in tables:
             table_name = table['table_name']
-            print(table_name)
             
             # Extract and set columns for this table
             columns = self.extract_column_details(table_name=table_name, return_as_dict=True)
