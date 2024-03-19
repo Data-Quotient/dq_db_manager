@@ -2,7 +2,7 @@
 import boto3
 from .s3_connection_handler import s3ConnectionHandler
 from .s3_metadata_extractor import s3MetadataExtractor
-from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
+from dq_db_manager.handlers.base.db_handler import BaseDBHandler
 
 class S3ClientHandler(BaseDBHandler):
     def __init__(self, connection_details):

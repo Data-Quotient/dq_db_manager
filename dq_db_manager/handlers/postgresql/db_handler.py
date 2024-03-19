@@ -1,7 +1,7 @@
-from .postgresql_connection_handler import PostgreSQLConnectionHandler
-from .postgresql_metadata_extractor import PostgreSQLMetadataExtractor
-from .models import MetadataModels
-from dq_db_manager.handlers.base.base_db_handler import BaseDBHandler
+from .connection_handler import PostgreSQLConnectionHandler
+from .metadata_extractor import PostgreSQLMetadataExtractor
+from dq_db_manager.models.postgres import MetadataModels
+from dq_db_manager.handlers.base.db_handler import BaseDBHandler
 
 class PostgreSQLDBHandler(BaseDBHandler):
     def __init__(self, connection_details):

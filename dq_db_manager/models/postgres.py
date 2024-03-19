@@ -10,7 +10,7 @@ class ColumnDetail(BaseModel):
     column_name: str
     data_type: str
     column_default: Optional[str] = None
-    is_nullable: str
+    is_nullable: str | bool
 
 class ConstraintDetail(BaseModel):
     constraint_name: str

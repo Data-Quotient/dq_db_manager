@@ -1,6 +1,6 @@
 import boto3
 import botocore
-from dq_db_manager.handlers.base.base_connection_handler import BaseConnectionHandler
+from dq_db_manager.handlers.base.connection_handler import BaseConnectionHandler
 
 from .s3_connection_details_parser import ConnectionDetailsParser
 

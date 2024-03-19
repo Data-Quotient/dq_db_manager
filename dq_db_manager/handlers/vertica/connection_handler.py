@@ -1,8 +1,8 @@
-from ..base.base_connection_handler import BaseConnectionHandler
-from .mysql_connection_details_parser import ConnectionDetailsParser
-import mysql.connector
+from dq_db_manager.handlers.base.connection_handler import BaseConnectionHandler
+from .connection_details_parser import ConnectionDetailsParser
+import vertica_python
 
-class MySQLConnectionHandler(BaseConnectionHandler):
+class VerticaConnectionHandler(BaseConnectionHandler):
     def __init__(self, connection_details):
         parser = ConnectionDetailsParser(connection_details)
         parsed_details = parser.parse()
@@ -11,10 +11,10 @@ class MySQLConnectionHandler(BaseConnectionHandler):
 
     def connect(self):
         try:
-            self.connection = mysql.connector.connect(**self.connection_details)
+            self.connection = vertica_python.connect(**self.connection_details)
             return self.connection
-        except mysql.connector.Error as e:
-            print(f"Error connecting to MySQL: {e}")
+        except vertica_python.Error as e:
+            print(f"Error connecting to Vertica: {e}")
             raise
 
     def disconnect(self):
@@ -25,8 +25,8 @@ class MySQLConnectionHandler(BaseConnectionHandler):
         try:
             self.connect()
             return True
-        except mysql.connector.Error as e:
-            print(f"Error testing MySQL connection: {e}")
+        except vertica_python.Error as e:
+            print(f"Error testing Vertica connection: {e}")
             return False
         finally:
             self.disconnect()
@@ -39,8 +39,8 @@ class MySQLConnectionHandler(BaseConnectionHandler):
             results = cursor.fetchall()
             cursor.close()
             return results
-        except mysql.connector.Error as e:
-            print(f"Error executing MySQL query: {e}")
+        except vertica_python.Error as e:
+            print(f"Error executing Vertica query: {e}")
             return None
         finally:
             self.disconnect()

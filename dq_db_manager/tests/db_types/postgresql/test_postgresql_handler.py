@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from dq_db_manager.handlers.postgresql.postgresql_db_handler import PostgreSQLDBHandler
+from dq_db_manager.handlers.postgresql.db_handler import PostgreSQLDBHandler
 
 class TestPostgreSQLDBHandler(unittest.TestCase):
     def setUp(self):

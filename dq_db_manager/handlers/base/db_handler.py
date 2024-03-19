@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from .base_connection_handler import BaseConnectionHandler
-from .base_metadata_extractor import BaseMetadataExtractor
+from .connection_handler import BaseConnectionHandler
+from .metadata_extractor import BaseMetadataExtractor
 
 class BaseDBHandler(ABC):
     def __init__(self, connection_details):
