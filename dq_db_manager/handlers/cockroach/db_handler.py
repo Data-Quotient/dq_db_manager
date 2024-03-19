@@ -1,10 +1,7 @@
-from .connection_handler import CockroachConnectionHandler
-from .metadata_extractor import CockroachMetadataExtractor
-from dq_db_manager.handlers.base.db_handler import BaseDBHandler
+from dq_db_manager.handlers.postgresql.db_handler import PostgreSQLDBHandler
 
-class CockroachHandler(BaseDBHandler):
+class CockroachHandler(PostgreSQLDBHandler):
     def __init__(self, connection_details):
-        self.connection_handler : CockroachConnectionHandler = CockroachConnectionHandler(connection_details)
-        self.metadata_extractor :  CockroachMetadataExtractor = CockroachMetadataExtractor(self.connection_handler)
+        super().__init__(connection_details)
 
     # ... Delegate connection and metadata extraction methods to connection_handler and metadata_extractor ...

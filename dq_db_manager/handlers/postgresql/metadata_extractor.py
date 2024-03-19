@@ -89,7 +89,7 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
             constraints = self.extract_constraints_details(table_name=table_name, return_as_dict=True)
             table['constraints'] = constraints
             
-            # # Extract and set indexes for this table
+            # Extract and set indexes for this table
             indexes = self.extract_index_details(table_name=table_name, return_as_dict=True)
             table['indexes'] = indexes
             
