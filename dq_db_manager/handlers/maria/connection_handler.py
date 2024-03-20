@@ -40,7 +40,6 @@ class MariaConnectionHandler(BaseConnectionHandler):
             cursor.close()
             return results
         except mariadb.Error as e:
-            print(f"Error executing MariaDB query: {e}")
-            return None
+            return (f"Error executing MariaDB query: {e}")
         finally:
             self.disconnect()
