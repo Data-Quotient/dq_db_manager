@@ -40,7 +40,7 @@ class TableMetadata(BaseModel):
 
 # DataSourceMetadata model to encapsulate all metadata for a data source
 class DataSourceMetadata(BaseModel):
-    data_source_id: str = Field(..., description="Unique identifier for the data source")
+    connection_string: str # user@host:port-connection_id
     tables: List[TableMetadata] = []
     views: List[ViewDetail] = []
     created_at: Optional[str] = None
