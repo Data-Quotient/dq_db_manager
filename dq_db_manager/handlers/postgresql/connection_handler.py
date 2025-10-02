@@ -37,7 +37,16 @@ class PostgreSQLConnectionHandler(BaseConnectionHandler):
             self.connect()
             cursor = self.connection.cursor()
             cursor.execute(query, params)
-            results = cursor.fetchall()
+
+            # Get column names from cursor description
+            columns = [desc[0] for desc in cursor.description] if cursor.description else []
+
+            # Fetch all rows
+            rows = cursor.fetchall()
+
+            # Convert to list of dictionaries
+            results = [dict(zip(columns, row)) for row in rows]
+
             cursor.close()
             return results
         except psycopg2.Error as e:
