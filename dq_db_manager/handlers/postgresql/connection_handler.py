@@ -36,12 +36,12 @@ class PostgreSQLConnectionHandler(BaseConnectionHandler):
         try:
             self.connect()
             cursor = self.connection.cursor()
-            cursor.execute(query, params)  
+            cursor.execute(query, params)
             results = cursor.fetchall()
             cursor.close()
             return results
         except psycopg2.Error as e:
             print(f"Error executing PostgreSQL query: {e}")
-            return None
+            raise
         finally:
             self.disconnect()
