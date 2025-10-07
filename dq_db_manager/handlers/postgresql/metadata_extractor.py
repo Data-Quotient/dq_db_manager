@@ -41,7 +41,7 @@ class PostgreSQLMetadataExtractor(BaseMetadataExtractor):
     
     def extract_index_details(self, table_name=None, index_name=None, return_as_dict: bool = False) -> Union[List[IndexDetail], List[dict]]:
         index_query = """
-        SELECT indexname, indexdef
+        SELECT indexname AS index_name, indexdef AS index_definition
         FROM pg_indexes
         WHERE schemaname = current_schema()
         """
