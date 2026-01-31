@@ -35,5 +35,9 @@ class DatabaseFactory:
             from dq_db_manager.handlers.vertica.db_handler import VerticaHandler
 
             return VerticaHandler(connection_details)
+        elif db_type == 'sqlite':
+            from dq_db_manager.handlers.sqlite.db_handler import SQLiteDBHandler
+
+            return SQLiteDBHandler(connection_details)
         else:
             raise ValueError(f"Unsupported database type: {db_type}")

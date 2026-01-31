@@ -15,6 +15,9 @@ class ColumnDetail(BaseModel):
 class ConstraintDetail(BaseModel):
     constraint_name: str
     constraint_type: str
+    source_column: str | None = None
+    referenced_table: str | None = None
+    referenced_column: str | None = None
 
 class IndexDetail(BaseModel):
     index_name: str
