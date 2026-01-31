@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/shivakharbanda/dq_db_manager/issues.
+Report bugs at https://github.com/Data-Quotient/dq_db_manager/issues.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +45,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/shivakharbanda/dq_db_manager/issues.
+The best way to send feedback is to file an issue at https://github.com/Data-Quotient/dq_db_manager/issues.
 
 If you are proposing a feature:
 
@@ -68,7 +68,7 @@ Ready to contribute? Here's how to set up `dq_db_manager` for local development.
 
     $ mkvirtualenv dq_db_manager
     $ cd dq_db_manager/
-    $ python setup.py develop
+    $ pip install -e ".[all]"
 
 4. Create a branch for local development::
 
@@ -80,7 +80,7 @@ Ready to contribute? Here's how to set up `dq_db_manager` for local development.
    tests, including testing other Python versions with tox::
 
     $ flake8 dq_db_manager tests
-    $ python setup.py test or pytest
+    $ pytest
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv.
@@ -102,8 +102,8 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 3.5, 3.6, 3.7 and 3.8, and for PyPy. Check
-   https://travis-ci.com/shivakharbanda/dq_db_manager/pull_requests
+3. The pull request should work for Python 3.9, 3.10, 3.11, 3.12, and 3.13. Check
+   https://travis-ci.com/Data-Quotient/dq_db_manager/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips
@@ -112,7 +112,7 @@ Tips
 To run a subset of tests::
 
 
-    $ python -m unittest tests.test_dq_db_manager
+    $ pytest tests/test_dq_db_manager.py
 
 Deploying
 ---------
