@@ -1,7 +1,7 @@
 from dq_db_manager.handlers.base.metadata_extractor import BaseMetadataExtractor
 from typing import List, Union
 from datetime import datetime
-from dq_db_manager.utils.RDBMSHelper import extract_details, add_table_to_query, add_index_to_query, add_view_to_query, add_trigger_to_query
+from dq_db_manager.utils.RDBMSHelper import extract_details, add_table_to_query, add_index_to_query, add_view_to_query, add_trigger_to_query, create_data_source_id
 from dq_db_manager.models.postgres import *
 
 class OracleMetadataExtractor(BaseMetadataExtractor):
@@ -88,7 +88,7 @@ class OracleMetadataExtractor(BaseMetadataExtractor):
         return extract_details(self.connection_handler.execute_query, trigger_query, TriggerDetail, return_as_dict, *params)
 
 
-    def get_complete_metadata(self):
+    def get_complete_metadata(self, connection_id='default_id__'):
         # Extract all tables first
         tables = self.extract_table_details(return_as_dict=True)
         # For each table, enrich it with columns, constraints, indexes, and triggers
@@ -116,7 +116,7 @@ class OracleMetadataExtractor(BaseMetadataExtractor):
 
         # Assemble the complete metadata
         complete_metadata = DataSourceMetadata(
-            data_source_id=self.connection_handler.connection_details['service_name'],
+            connection_string=f"{create_data_source_id(self.connection_handler.connection_details)}-{connection_id}",
             tables=tables,
             views=views,
             created_at=str(datetime.now()),
